@@ -1,0 +1,17 @@
+{
+  "name": "online-store",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "Kirill",
+  "license": "ISC",
+  "description": "online store on stack: postgre node express",
+  "main": "index.js",
+  "scripts": {
+    "lint": "cd server && npm run lint && cd ../client && npm run lint",
+    "format": "cd server && npm run format && cd ../client && npm run format",
+    "pre-commit": "cd server && npm run pre-commit && cd ../client && npm run pre-commit",
+    "install-dependencies": "npm install && cd server && npm install && cd ../client && npm install",
+    "build": "cd server && npm run build && cd ../client && npm run build",
+    "start:production": "cd server && npm run start:production && cd ../client && npm run start:production"
+  }
+}

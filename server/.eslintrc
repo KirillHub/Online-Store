@@ -1,0 +1,55 @@
+{
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "requireConfigFile": false
+
+    //  "babelOptions": {
+    //    "babelrc": false,
+    //    "configFile": false
+    // your babel options
+    // presets: ["@babel/preset-env"],
+    //  }
+  },
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:node/recommended",
+    "prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "plugins": ["prettier", "node"],
+  "rules": {
+    "no-unused-vars": "error",
+    "no-else-return": "error",
+    "no-var": "off",
+    "prefer-const": "error",
+    "consistent-return": "error",
+    "camelcase": "error",
+    "no-await-in-loop": "error",
+    "node/no-missing-import": "error",
+    "node/no-extraneous-import": "error",
+    "node/no-unpublished-import": "error",
+    "node/no-unsupported-features/node-builtins": "error",
+    "node/shebang": "error",
+
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto",
+        "highlightTrailingWhitespace": "true"
+      }
+    ]
+  }
+}
