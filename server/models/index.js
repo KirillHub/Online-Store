@@ -42,14 +42,14 @@ Type.belongsToMany(Brand, { through: TypeBrand });
 Rating.belongsTo(User);
 Rating.belongsTo(Device);
 
-// module.exports = {
-//   User,
-//   Basket,
-//   BasketDevice,
-//   Device,
-//   Type,
-//   Brand,
-//   Rating,
-//   TypeBrand,
-//   DeviceInfo,
-// };
+module.exports = {
+  User,
+  Basket,
+  BasketDevice,
+  Device,
+  Type,
+  Brand,
+  Rating,
+  TypeBrand,
+  DeviceInfo,
+};

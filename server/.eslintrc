@@ -4,13 +4,6 @@
     "ecmaVersion": 2020,
     "sourceType": "module",
     "requireConfigFile": false
-
-    //  "babelOptions": {
-    //    "babelrc": false,
-    //    "configFile": false
-    // your babel options
-    // presets: ["@babel/preset-env"],
-    //  }
   },
   "env": {
     "browser": true,
@@ -31,7 +24,7 @@
   },
   "plugins": ["prettier", "node"],
   "rules": {
-    "no-unused-vars": "error",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-else-return": "error",
     "no-var": "off",
     "prefer-const": "error",
