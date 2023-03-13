@@ -6,3 +6,4 @@
 -	Typescript
 -	PostgreSQL
 -	Express
+- Sequelize
