@@ -1,4 +1,4 @@
-const ApiError = require('../error/ApiError');
+// const ApiError = require('../errors/ApiError');
 const Type = require('../models/Type');
 
 class TypeController {
@@ -24,7 +24,7 @@ class TypeController {
 
       res.json({ success: `type with ${queryParam} - deleted` });
     }
-    return next(ApiError.badRequest('No product type found with this type'));
+   //  return next(ApiError.badRequest('No product type found with this type'));
   }
 }
 

@@ -1,4 +1,4 @@
-const ApiError = require('../error/ApiError');
+// const ApiError = require('../error/ApiError');
 
 class UserController {
   constructor() {}
@@ -9,7 +9,7 @@ class UserController {
   async check(req, res, next) {
     const { id } = req.query;
     if (!id) {
-      return next(ApiError.badRequest('Не задан ID'));
+      // return next(ApiError.badRequest('Не задан ID'));
     }
     return res.json(id);
     //  res.json({ message: 'cringe123' });

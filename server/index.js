@@ -1,22 +1,44 @@
 require('dotenv').config();
 
 const express = require('express');
-const sequelize = require('./db');
+// const sequelize = require('./db');
 const models = require('./models/index');
+const handleError = require('./middleware/errors');
 const cors = require('cors');
 const router = require('./routes/index');
-const errorHandler = require('./middleware/ErrorHandlingMiddleware');
+// const createDatabaseConnection = require('./database/db');
+const sequelize = require('./database/createConnection');
+const { RouteNotFoundError } = require('./errors/customErrors');
 
-const PORT = process.env.PORT || 5000;
+// let sequelize;
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use('/api', router);
+const establishDatabaseConnection = async () => {
+  try {
+    sequelize.authenticate().then(() => {
+      console.log('Connection has been established successfully.');
+    });
+    await sequelize.sync();
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+};
 
-// error handling, latest middleware
-app.use(errorHandler);
+const initializeExpress = () => {
+  const app = express();
+  const PORT = process.env.PORT || 5000;
 
+  app.use(cors());
+  app.use(express.json());
+  app.use('/api', router);
+
+  app.use((req, _res, next) => next(new RouteNotFoundError(req.originalUrl)));
+  // error handling, latest middleware
+  app.use(handleError);
+
+  app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+};
+
+/*
 const start = async () => {
   try {
     await sequelize.authenticate().then(() => {
@@ -29,5 +51,11 @@ const start = async () => {
 };
 
 start();
+*/
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+const initializeApp = async () => {
+  await establishDatabaseConnection();
+  initializeExpress();
+};
+
+initializeApp();
