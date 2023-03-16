@@ -6,22 +6,11 @@ import { router } from './routes/index.js';
 import { RouteNotFoundError } from './errors/customErrors.js';
 import { handleError } from './middleware/errors.js';
 import fileUpload from 'express-fileupload';
+import path from 'path';
 
 // import * as models from './models/index'; //!?
 
-// const express = require('express');
-// const sequelize = require('./db');
-// const models = require('../models/index');
-// const handleError = require('./middleware/errors');
-// const cors = require('cors');
-// const router = require('../routes/index');
-// const createDatabaseConnection = require('./database/db');
-// const sequelize = require('../database/createConnection');
-// const { RouteNotFoundError } = require('./errors/customErrors');
-
-/*
-dotenv.config();
-*/
+// dotenv.config();
 
 const establishDatabaseConnection = async () => {
   try {
@@ -38,12 +27,18 @@ const initializeExpress = () => {
   const app = express();
   const PORT = process.env.PORT || 5000;
 
+  // create filePath for static
+  const __dirname = path.resolve();
+  const fp = path.resolve(__dirname, 'static');
+
   app.use(cors());
   app.use(express.json());
+  app.use(express.static(fp));
   app.use(fileUpload({}));
   app.use('/api', router);
 
   app.use((req, _res, next) => next(new RouteNotFoundError(req.originalUrl)));
+
   // error handling, latest middleware
   app.use(handleError);
 
