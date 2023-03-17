@@ -1,24 +1,23 @@
 import { sequelize } from '../database/createConnection.js';
 import { DataTypes } from 'sequelize';
-import { TypeBrand as TypeBrandModel } from '../types/models.js';
+import { BasketDevice as BasketDeviceModel } from '../types/models.js';
 
-export const _TypeBrand = TypeBrandModel.init(
+export const _BasketDevice = BasketDeviceModel.init(
   {
     id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       primaryKey: true,
       autoIncrement: true,
     },
   },
   {
     sequelize: sequelize,
-    modelName: 'type_brand',
+    modelName: 'basket_device',
   }
 );
 
 /*
-export const TypeBrand = sequelize.define('type_brand', {
+export const BasketDevice = sequelize.define('basket_device', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 */

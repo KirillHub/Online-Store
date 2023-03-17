@@ -17,6 +17,13 @@ class RouteNotFoundError extends CustomError {
   }
 }
 
+class RequestPathError extends CustomError {
+  constructor(url: string) {
+    super(`Request parameter path ${url} not found`, 'NOT_CORRECT_PATH_FOR_THIS_REQUEST', 404);
+  }
+}
+
+
 class BadUserInputError extends CustomError {
   constructor(errorData: ErrorData) {
     super('There were validation errors.', 'BAD_USER_INPUT', 400, errorData);
@@ -29,4 +36,4 @@ class InvalidTokenError extends CustomError {
   }
 }
 
-export { CustomError, RouteNotFoundError, BadUserInputError, InvalidTokenError };
+export { CustomError, RouteNotFoundError, RequestPathError, BadUserInputError, InvalidTokenError };

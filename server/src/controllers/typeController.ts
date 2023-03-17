@@ -1,5 +1,7 @@
+import { RequestPathError } from '../errors/customErrors.js';
 import { catchErrors } from '../errors/asyncCatch.js';
-import { Type } from '../models/Type.js';
+import { Type } from '../associations/modelAssociations.js';
+import pkg from 'lodash';
 
 export class TypeController {
   constructor() {}
@@ -15,17 +17,29 @@ export class TypeController {
     return res.json(types);
   });
 
-  deleteType = catchErrors(async (req, res, _next) => {
-    let queryParam;
+  deleteType = catchErrors(async (req, res, next) => {
+    const { isNaN } = pkg;
     const query = req.query;
+    let queryParam: any;
+    const isNumberId = Number(query.id);
+    const error = new RequestPathError(req.url);
+
+    if (query.id && isNaN(isNumberId)) {
+      return next(error);
+    }
 
     if (query.id || query.name) {
-      typeof query.id !== 'undefined' ? (queryParam = query.id) : (queryParam = query.name);
+      typeof query.id !== 'undefined'
+        ? ((queryParam = query.id),
+          await Type.destroy({
+            where: { id: Number(query.id) },
+          }))
+        : ((queryParam = query.name),
+          await Type.destroy({
+            where: { name: query.name as string },
+          }));
 
       res.json({ success: `type with ${queryParam} - deleted` });
-    }
-    //  return next(ApiError.badRequest('No product type found with this type'));
+    } else return next(error);
   });
 }
-
-// module.exports = new TypeController();

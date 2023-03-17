@@ -1,47 +1,39 @@
+
 import { catchErrors } from '../errors/asyncCatch.js';
-import { RequestHandler } from 'express';
+import { Request, RequestHandler } from 'express';
 import multer, { Multer } from 'multer';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { Device } from '../models/Device.js';
-
-interface Files {
-  img: {
-    mv: (path: string) => void;
-  };
-}
+import { BaseDeviceInter, DeviceInter } from '../types/request.js';
+import { Files } from '../types/global.js';
+import { Device } from '../associations/modelAssociations.js';
 
 export class DeviceController {
   constructor() {}
 
-  create = catchErrors(async (req, res) => {
+  create = catchErrors(async (req: Request<{}, {}, DeviceInter>, res) => {
     const { name, price, brandId, typeId, info } = req.body;
 
-    const { img } = req.files as unknown as Files; //TODO:
+    const { img } = req.files as unknown as Files;
 
     const fileName = uuidv4() + '.jpg';
     const __dirname = path.resolve();
     const fp = path.resolve(__dirname, 'static', fileName);
-	 console.log(fp);
     img.mv(fp);
 
-    //  return res.json({ message: 'hello' });
-    //  multer.diskStorage({});
-
-    const device = await Device.create({ name, price, brandId, typeId, img: fileName });
+    const device = await Device.create({ name, price, img: fileName });
     return res.json(device);
   });
 
-  getAll = catchErrors(async (_req, res) => {
-    //  console.log(__dirname);
+  getAll = catchErrors(async (req, _res) => {
+    //  const devices = await Device.findAll();
+    //  return res.json(devices);
+    const { brandId, typeId }: BaseDeviceInter = req.body;
+	 let devices;
 
-    //  img.mv(filePath);
-
-    //  console.log(fp);
-
-    const devices = await Device.findAll();
-    return res.json(devices);
+	 if (!brandId && !typeId) return
   });
 
   getOne = catchErrors(async (_req, _res) => {});
 }
+

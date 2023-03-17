@@ -8,7 +8,8 @@ import { handleError } from './middleware/errors.js';
 import fileUpload from 'express-fileupload';
 import path from 'path';
 
-// import * as models from './models/index'; //!?
+// assisiation
+// import * as modelsWithAssociations from './associations/modelAssociations.js';
 
 // dotenv.config();
 

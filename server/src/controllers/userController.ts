@@ -1,3 +1,4 @@
+
 import { catchErrors } from '../errors/asyncCatch.js';
 
 export class UserController {
@@ -6,12 +7,13 @@ export class UserController {
 
   login = catchErrors(async (_req, _res) => {});
 
-   check= catchErrors(async (req, res) => {
+  check = catchErrors(async (req, res) => {
     const { id } = req.query;
     if (!id) {
       // return next(ApiError.badRequest('Не задан ID'));
     }
     return res.json(id);
     //  res.json({ message: 'cringe123' });
-  })
+  });
 }
+
