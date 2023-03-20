@@ -1,4 +1,4 @@
-import { RequestPathError } from '../errors/customErrors.js';
+import { RequestPathError, RequestQueryParamError } from '../errors/customErrors.js';
 import { catchErrors } from '../errors/asyncCatch.js';
 import { Type } from '../associations/modelAssociations.js';
 import pkg from 'lodash';
@@ -22,24 +22,15 @@ export class TypeController {
     const query = req.query;
     let queryParam: any;
     const isNumberId = Number(query.id);
-    const error = new RequestPathError(req.url);
+    const error = new RequestQueryParamError(req.url);
 
-    if (query.id && isNaN(isNumberId)) {
-      return next(error);
-    }
+    if (isNumberId && isNaN(isNumberId)) return next(error);
 
-    if (query.id || query.name) {
-      typeof query.id !== 'undefined'
-        ? ((queryParam = query.id),
-          await Type.destroy({
-            where: { id: Number(query.id) },
-          }))
-        : ((queryParam = query.name),
-          await Type.destroy({
-            where: { name: query.name as string },
-          }));
+    queryParam = query.id;
+    await Type.destroy({
+      where: { id: Number(query.id) },
+    });
 
-      res.json({ success: `type with ${queryParam} - deleted` });
-    } else return next(error);
+    res.json({ success: `type with ${queryParam} - deleted` });
   });
 }

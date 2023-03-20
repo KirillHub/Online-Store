@@ -23,6 +23,11 @@ class RequestPathError extends CustomError {
   }
 }
 
+class RequestQueryParamError extends CustomError {
+  constructor(url: string) {
+    super(`Request query param ${url} not found`, 'NOT_CORRECT_QUERY_PARAM', 404);
+  }
+}
 
 class BadUserInputError extends CustomError {
   constructor(errorData: ErrorData) {
@@ -36,4 +41,11 @@ class InvalidTokenError extends CustomError {
   }
 }
 
-export { CustomError, RouteNotFoundError, RequestPathError, BadUserInputError, InvalidTokenError };
+export {
+  CustomError,
+  RouteNotFoundError,
+  RequestPathError,
+  RequestQueryParamError,
+  BadUserInputError,
+  InvalidTokenError,
+};

@@ -1,0 +1,9 @@
+{
+  "watch": ["src"],
+  "ext": ".ts, .js",
+  "ignore": [".git", ".eslintrc", "node_modules/**", "public/**"],
+  "exec": "cross-env NODE_ENV=development npx ts-node ./src/index.ts"
+}
+
+
+    "dev": "npx nodemon",

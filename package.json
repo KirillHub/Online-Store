@@ -4,7 +4,7 @@
   "keywords": [],
   "author": "Kirill",
   "license": "ISC",
-  "description": "online store on stack: postgre node express",
+  "description": "online store on stack: postgre node express sequelize",
   "main": "index.js",
   "scripts": {
     "lint": "cd server && npm run lint && cd ../client && npm run lint",

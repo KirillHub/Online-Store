@@ -12,9 +12,23 @@ export const _User = UserModel.init(
     email: {
       type: DataTypes.STRING,
       unique: true,
+      validate: {
+        isEmail: true,
+        notEmpty: true,
+      },
     },
-    name: { type: DataTypes.STRING },
-    password: { type: DataTypes.STRING },
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      },
+    },
     role: {
       type: DataTypes.STRING,
       defaultValue: 'USER',
