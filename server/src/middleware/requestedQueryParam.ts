@@ -1,8 +1,5 @@
 import { RequestPathError, RequestQueryParamError } from '../errors/customErrors.js';
-import { Request } from 'express';
-import { Type } from '../associations/modelAssociations.js';
 import { catchErrors } from '../errors/asyncCatch.js';
-import { Type as TypeModel } from '../types/models.js';
 import { Model, ModelStatic } from 'sequelize';
 
 interface RequestedQueryParamOptions {

@@ -1,7 +1,7 @@
-
 import { catchErrors } from '../errors/asyncCatch.js';
-import { Request, Response } from 'express';
 import { Brand } from '../associations/modelAssociations.js';
+import { RequestQueryParamError } from '../errors/customErrors.js';
+import pkg from 'lodash';
 
 export class BrandController {
   constructor() {}
@@ -17,10 +17,18 @@ export class BrandController {
     return res.json(brands);
   });
 
-  delete = catchErrors(async (req, _res) => {
-    const brandId = req.query.id;
+  delete = catchErrors(async (req, res, next) => {
+    const { isNaN } = pkg;
+    const query = req.query;
+    const isNumberId = Number(query.id);
+    const error = new RequestQueryParamError(req.url);
 
-    // brandId ?
+    if (isNumberId && isNaN(isNumberId)) return next(error);
+
+    await Brand.destroy({
+      where: { id: Number(query.id) },
+    });
+
+    res.json({ success: `type with ${query.id} - deleted` });
   });
 }
-

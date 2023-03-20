@@ -20,17 +20,15 @@ export class TypeController {
   deleteType = catchErrors(async (req, res, next) => {
     const { isNaN } = pkg;
     const query = req.query;
-    let queryParam: any;
     const isNumberId = Number(query.id);
     const error = new RequestQueryParamError(req.url);
 
     if (isNumberId && isNaN(isNumberId)) return next(error);
 
-    queryParam = query.id;
     await Type.destroy({
       where: { id: Number(query.id) },
     });
 
-    res.json({ success: `type with ${queryParam} - deleted` });
+    res.json({ success: `type with ${query.id} - deleted` });
   });
 }
