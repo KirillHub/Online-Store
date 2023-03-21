@@ -35,9 +35,21 @@ class BadUserInputError extends CustomError {
   }
 }
 
+class UserExistsError extends CustomError {
+  constructor(message = 'This user is already registered') {
+    super(message, 'USER_ALREADY_EXISTS', 404);
+  }
+}
+
 class InvalidTokenError extends CustomError {
   constructor(message = 'Authentication token is invalid.') {
     super(message, 'INVALID_TOKEN', 401);
+  }
+}
+
+class AuthenticationError extends CustomError {
+  constructor(message = 'Password or username is not correct') {
+    super(message, 'INVALID_PASSWORD_OR_USERNAME', 404);
   }
 }
 
@@ -47,5 +59,7 @@ export {
   RequestPathError,
   RequestQueryParamError,
   BadUserInputError,
+  UserExistsError,
   InvalidTokenError,
+  AuthenticationError,
 };

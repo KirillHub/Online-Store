@@ -1,4 +1,4 @@
-// import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import { sequelize } from './database/createConnection.js';
@@ -9,9 +9,9 @@ import fileUpload from 'express-fileupload';
 import path from 'path';
 
 // assisiation
-// import * as modelsWithAssociations from './associations/modelAssociations.js';
+import * as modelsWithAssociations from './associations/modelAssociations.js';
 
-// dotenv.config();
+dotenv.config();
 
 const establishDatabaseConnection = async () => {
   try {

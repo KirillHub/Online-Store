@@ -1,18 +1,13 @@
 import { catchErrors } from '../errors/asyncCatch.js';
-import { Request, RequestHandler } from 'express';
+import { Request } from 'express';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  BaseDeviceInter,
-  DeviceModel,
-  DeviceInter,
-  AssociationDeviceInter,
-} from '../types/request.js';
+import { DeviceModel, DeviceInter } from '../types/request.js';
 import { Files } from '../types/global.js';
-import { Device } from '../associations/modelAssociations.js';
+import { Device, Brand, Type, DeviceInfo } from '../associations/modelAssociations.js';
 import { RequestQueryParamError } from '../errors/customErrors.js';
 import pkg from 'lodash';
-import { Brand, Type, DeviceInfo } from '../types/models.js';
+import { DeviceInfo as ModelDeviceInfo } from '../types/models.js';
 
 export class DeviceController {
   constructor() {}
@@ -32,11 +27,11 @@ export class DeviceController {
       img: fileName,
     });
 
-    await device.setBrand(brandId);
+    await device.setBrand(brandId as unknown as any); // TODO: later fix
     await device.setType(typeId);
 
     if (info) {
-      const deviceInfo: DeviceInfo[] = JSON.parse(info);
+      const deviceInfo: ModelDeviceInfo[] = JSON.parse(info);
 
       deviceInfo.forEach(async i => {
         const devInfo = await DeviceInfo.create({
@@ -77,7 +72,7 @@ export class DeviceController {
 
   getOne = catchErrors(async (req, res, next) => {
     const error = new RequestQueryParamError(req.url);
-    const {id} = req.params;
+    const { id } = req.params;
     if (id) {
       const device = await Device.findOne({
         where: { id } as any,

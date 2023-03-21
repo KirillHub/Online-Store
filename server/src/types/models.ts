@@ -19,7 +19,7 @@ import {
 } from 'sequelize';
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-  id: number;
+  id: CreationOptional<number>;
   name: CreationOptional<string>;
   email: string;
   password: string;
@@ -29,9 +29,9 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 }
 
 export class Basket extends Model<InferAttributes<Basket>, InferCreationAttributes<Basket>> {
-  id: number;
+  id: CreationOptional<number>;
   userId: BelongsToCreateAssociationMixin<User>;
-  getBasketDevices: HasManyAddAssociationMixin<BasketDevice, number>;
+  setBasketDevices: HasManyAddAssociationMixin<BasketDevice, number>;
 }
 
 export class BasketDevice extends Model<
@@ -59,11 +59,11 @@ export class Device extends Model<InferAttributes<Device>, InferCreationAttribut
   getBasketDevice: HasManyAddAssociationMixin<BasketDevice, number>;
   getRating: HasManyAddAssociationMixin<Rating, number>;
   getDeviceInfo: HasManyAddAssociationMixin<DeviceInfo, number>;
-  typeId: BelongsToCreateAssociationMixin<Type>;
-  brandId: BelongsToCreateAssociationMixin<Brand>;
   setBrand: BelongsToCreateAssociationMixin<Brand>;
   setType: BelongsToCreateAssociationMixin<Type>;
 }
+//   typeId: BelongsToCreateAssociationMixin<Type>;
+//   brandId: BelongsToCreateAssociationMixin<Brand>;
 
 export class DeviceInfo extends Model<
   InferAttributes<DeviceInfo>,
