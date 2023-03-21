@@ -1,21 +1,24 @@
 import { catchErrors } from '../errors/asyncCatch.js';
 import { Request, RequestHandler } from 'express';
-import multer, { Multer } from 'multer';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { BaseDeviceInter, DeviceModel } from '../types/request.js';
+import {
+  BaseDeviceInter,
+  DeviceModel,
+  DeviceInter,
+  AssociationDeviceInter,
+} from '../types/request.js';
 import { Files } from '../types/global.js';
 import { Device } from '../associations/modelAssociations.js';
 import { RequestQueryParamError } from '../errors/customErrors.js';
 import pkg from 'lodash';
-import { Brand, Device as TDevice, Type } from '../types/models.js';
+import { Brand, Type, DeviceInfo } from '../types/models.js';
 
 export class DeviceController {
   constructor() {}
 
   create = catchErrors(async (req: Request<{}, {}, DeviceModel>, res) => {
-    const { name, price, brandId, typeId, info } = req.body;
-
+    let { name, price, brandId, typeId, info } = req.body;
     const { img } = req.files as unknown as Files;
 
     const fileName = uuidv4() + '.jpg';
@@ -32,13 +35,26 @@ export class DeviceController {
     await device.setBrand(brandId);
     await device.setType(typeId);
 
+    if (info) {
+      const deviceInfo: DeviceInfo[] = JSON.parse(info);
+
+      deviceInfo.forEach(async i => {
+        const devInfo = await DeviceInfo.create({
+          title: i.title,
+          description: i.description,
+        });
+        await devInfo.setDevice(device.id);
+      });
+    }
+
     return res.json(device);
   });
 
-  getAll = catchErrors(async (req: Request<{}, {}, BaseDeviceInter>, res) => {
-    const brandId = req.query.brandId as unknown as number;
-    const typeId = req.query.typeId as unknown as number;
-
+  getAll = catchErrors(async (req: Request<{}, {}, DeviceInter>, res) => {
+    let { brandId, typeId, limit, page } = req.query as unknown as DeviceInter;
+    page = page || 1;
+    limit = limit || 9;
+    let offset = page * limit - limit;
     let where = {};
 
     if (brandId) where = { ...where, brandId: Number(brandId) };
@@ -49,36 +65,28 @@ export class DeviceController {
       where = { ...where, brandId: Number(brandId), typeId: Number(typeId) };
     }
 
-    const devices = await Device.findAll({
+    const devices = await Device.findAndCountAll({
       where,
       include: [{ model: Type }, { model: Brand }],
+      limit,
+      offset,
     });
 
-    /*
-    if (!brandId && !typeId) {
-      devices = await Device.findAll();
-    }
-
-    if (brandId && !typeId) {
-      devices = await Device.findAll({ where: { brandId: Number(brandId) } });
-    }
-
-    if (!brandId && typeId) {
-      devices = await Device.findAll({ where: { typeId: Number(typeId) } });
-    }
-
-    if (brandId && typeId) {
-      devices = await Device.findAll({
-        where: { typeId: Number(typeId), brandId: Number(brandId) },
-      });
-    }
- */
-
     return res.json(devices);
-    //  const { brandId, typeId }: BaseDeviceInter = query;
   });
 
-  getOne = catchErrors(async (_req, _res) => {});
+  getOne = catchErrors(async (req, res, next) => {
+    const error = new RequestQueryParamError(req.url);
+    const {id} = req.params;
+    if (id) {
+      const device = await Device.findOne({
+        where: { id } as any,
+        include: [{ model: DeviceInfo, as: 'info' }],
+      });
+      return res.json(device);
+    } else next(error);
+  });
+
   delete = catchErrors(async (req, res, next) => {
     const { isNaN } = pkg;
     const query = req.query;
@@ -91,6 +99,6 @@ export class DeviceController {
       where: { id: Number(query.id) },
     });
 
-    res.json({ success: `type with ${query.id} - deleted` });
+    return res.json({ success: `type with ${query.id} - deleted` });
   });
 }

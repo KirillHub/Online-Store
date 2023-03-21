@@ -5,6 +5,7 @@ import {
   BelongsToGetAssociationMixin,
   BelongsToManyAddAssociationMixin,
   BelongsToManyAddAssociationMixinOptions,
+  BelongsToSetAssociationMixin,
   CreationOptional,
   ForeignKey,
   HasManyAddAssociationMixin,
@@ -68,10 +69,10 @@ export class DeviceInfo extends Model<
   InferAttributes<DeviceInfo>,
   InferCreationAttributes<DeviceInfo>
 > {
-  id: number;
+  id: CreationOptional<number>;
   title: string;
   description: string;
-  deviceId: BelongsToCreateAssociationMixin<Device>;
+  setDevice: BelongsToSetAssociationMixin<Device, number>;
 }
 
 export class Rating extends Model<InferAttributes<Rating>, InferCreationAttributes<Rating>> {

@@ -16,9 +16,3 @@ export const _TypeBrand = TypeBrandModel.init(
     modelName: 'type_brand',
   }
 );
-
-/*
-export const TypeBrand = sequelize.define('type_brand', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
-*/

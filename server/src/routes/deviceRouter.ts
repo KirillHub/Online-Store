@@ -8,7 +8,14 @@ const deviceController = new DeviceController();
 
 router.post('/', deviceController.create);
 router.get('/', deviceController.getAll);
-router.get('/:id', deviceController.getOne);
+router.get(
+  '/:id',
+  requestedQueryParam({
+    model: Device,
+    fields: 'id',
+  }),
+  deviceController.getOne
+);
 router.delete(
   '/',
   requestedQueryParam({

@@ -15,9 +15,3 @@ export const _BasketDevice = BasketDeviceModel.init(
     modelName: 'basket_device',
   }
 );
-
-/*
-export const BasketDevice = sequelize.define('basket_device', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
-*/

@@ -19,7 +19,7 @@ _BasketDevice.belongsTo(_Device);
 _Device.hasMany(_BasketDevice);
 _Device.belongsTo(_Type);
 _Device.hasMany(_Rating);
-_Device.hasMany(_DeviceInfo);
+_Device.hasMany(_DeviceInfo, { as: 'info' });
 _Device.belongsTo(_Brand);
 
 // DeviceInfo
