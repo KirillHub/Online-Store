@@ -1,6 +1,6 @@
 import { sequelize } from '../database/createConnection.js';
 import { DataTypes } from 'sequelize';
-import { Device as DeviceModel} from '../types/models.js';
+import { Device as DeviceModel } from '../types/models.js';
 
 export const _Device = DeviceModel.init(
   {
@@ -26,6 +26,8 @@ export const _Device = DeviceModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+   //  brandId: { type: DataTypes.NUMBER },
+   //  typeId: { type: DataTypes.NUMBER },
   },
   {
     sequelize: sequelize,
