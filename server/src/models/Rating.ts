@@ -16,6 +16,7 @@ export const _Rating = RatingModel.init(
   },
   {
     sequelize: sequelize,
-    modelName: 'rating',
+    modelName: 'Rating',
+	 tableName: 'rating'
   }
 );

@@ -27,7 +27,7 @@ export class DeviceController {
       img: fileName,
     });
 
-    await device.setBrand(brandId as unknown as any); // TODO: later fix
+    await device.setBrand(brandId);
     await device.setType(typeId);
 
     if (info) {

@@ -49,7 +49,7 @@ class InvalidTokenError extends CustomError {
 
 class AuthenticationError extends CustomError {
   constructor(message = 'Password or username is not correct') {
-    super(message, 'INVALID_PASSWORD_OR_USERNAME', 404);
+    super(message, 'INVALID_PASSWORD_OR_USERNAME', 401);
   }
 }
 

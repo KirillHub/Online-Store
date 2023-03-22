@@ -13,6 +13,7 @@ export const _TypeBrand = TypeBrandModel.init(
   },
   {
     sequelize: sequelize,
-    modelName: 'type_brand',
+    modelName: 'TypeBrand',
+    tableName: 'type_brand',
   }
 );

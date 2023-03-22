@@ -32,8 +32,10 @@ export declare interface DeviceModel
   extends Model<InferAttributes<Device>, InferCreationAttributes<Device>>,
     Device,
     BaseDeviceInter {
-  brandId: BelongsToGetAssociationMixin<BrandModel>;
-  typeId: BelongsToGetAssociationMixin<TypeModel>;
+  //   brandId: BelongsToGetAssociationMixin<BrandModel>;
+  //  typeId: BelongsToGetAssociationMixin<TypeModel>;
+  brandId: number;
+  typeId: number;
 }
 
 export declare interface BaseUserInter {
@@ -41,12 +43,3 @@ export declare interface BaseUserInter {
   password: string;
   role: string;
 }
-
-/*
-export declare interface UserModel
-  extends Model<InferAttributes<User>, InferCreationAttributes<User>>,
-    User,
-    BaseUserInter {
- 	 userId: BelongsToCreateAssociationMixin<User>;
-}
-*/

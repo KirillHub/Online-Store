@@ -12,6 +12,7 @@ export const _Basket = BasketModel.init(
   },
   {
     sequelize: sequelize,
-    modelName: 'basket',
+    modelName: 'Basket',
+    tableName: 'basket',
   }
 );

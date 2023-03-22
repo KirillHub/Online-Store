@@ -29,6 +29,7 @@ export const _Device = DeviceModel.init(
   },
   {
     sequelize: sequelize,
-    modelName: 'device',
+    modelName: 'Device',
+	 tableName: 'device'
   }
 );

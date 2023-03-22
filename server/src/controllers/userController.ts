@@ -31,20 +31,30 @@ export class UserController {
 
     const hashPassword = await bcrypt.hash(password, 5);
     const user = await User.create({ email, role, password: hashPassword });
-    //  const basket = await Basket.create({ userId: user.id } as InferCreationAttributes<any>);
-    // const basket = await Basket.setUserId();
 
+    // TODO: fix this
     const basket = await Basket.create({});
-    basket.userId(user.id as unknown as any);
-    //  const jwt = jwt.sing({id: user.id});
+    await basket.setUser(user.id);
 
-    //  const jws = jwt.sign({ id: user.id, email, role }, 'your_secret_key', options);
-    const token = signToken({ id: user.id, email, role }, options);
+    const token = signToken({ id: user.id, email: user.email, role: user.role }, options);
 
     return res.json({ token });
   });
 
-  login = catchErrors(async (_req, _res) => {});
+  login = catchErrors(async (req: Request<{}, {}, BaseUserInter>, res, next) => {
+    const { email, password, role } = req.body;
+    const user = await User.findOne({ where: { email } });
+    const userExistError = new UserExistsError();
+    const authError = new AuthenticationError();
+
+    if (!user) return next(userExistError);
+
+    let comparePassword = bcrypt.compareSync(password, user.password);
+    if (!comparePassword) return next(authError);
+
+    const token = signToken({ id: user.id, email: user.email, role: user.role });
+    return res.json({ token });
+  });
 
   check = catchErrors(async (req, res) => {
     const { id } = req.query;

@@ -21,6 +21,7 @@ export const _Type = TypeModel.init(
   },
   {
     sequelize: sequelize,
-    modelName: 'type',
+    modelName: 'Type',
+	 tableName: 'type'
   }
 );

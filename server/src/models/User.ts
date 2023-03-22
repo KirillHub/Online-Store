@@ -35,7 +35,8 @@ export const _User = UserModel.init(
     },
   },
   {
-    tableName: 'user',
     sequelize: sequelize,
+    modelName: 'User',
+    tableName: 'user',
   }
 );

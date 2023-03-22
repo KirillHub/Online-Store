@@ -4,15 +4,18 @@ import {
   BelongsToCreateAssociationMixin,
   BelongsToGetAssociationMixin,
   BelongsToManyAddAssociationMixin,
-  BelongsToManyAddAssociationMixinOptions,
   BelongsToSetAssociationMixin,
   CreationOptional,
   ForeignKey,
   HasManyAddAssociationMixin,
   HasManyAddAssociationsMixin,
   HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManySetAssociationsMixin,
   HasOneCreateAssociationMixin,
   HasOneGetAssociationMixin,
+  HasOneSetAssociationMixin,
   InferAttributes,
   InferCreationAttributes,
   Model,
@@ -24,14 +27,22 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   email: string;
   password: string;
   role: string;
-  basketId: HasOneCreateAssociationMixin<Basket>;
-  getRating: HasManyAddAssociationMixin<Rating, number>;
+  createBasket: HasOneCreateAssociationMixin<Basket>;
+  createRating: HasManyCreateAssociationMixin<Rating>;
+  getBasket: HasOneGetAssociationMixin<Basket>;
+  getRating: HasManyGetAssociationsMixin<Rating>;
+  setBasket: HasOneSetAssociationMixin<Basket, number>;
+  setRating: HasManySetAssociationsMixin<Rating, number>;
 }
 
 export class Basket extends Model<InferAttributes<Basket>, InferCreationAttributes<Basket>> {
   id: CreationOptional<number>;
-  userId: BelongsToCreateAssociationMixin<User>;
-  setBasketDevices: HasManyAddAssociationMixin<BasketDevice, number>;
+  createUser: BelongsToCreateAssociationMixin<User>;
+  createBasketDevices: HasManyCreateAssociationMixin<BasketDevice, 'id'>;
+  getUser: BelongsToGetAssociationMixin<User>;
+  getBasketDevice: HasManyGetAssociationsMixin<BasketDevice>;
+  setUser: BelongsToSetAssociationMixin<User, number>;
+  setBasketDevices: BelongsToSetAssociationMixin<BasketDevice, number>;
 }
 
 export class BasketDevice extends Model<
@@ -39,15 +50,19 @@ export class BasketDevice extends Model<
   InferCreationAttributes<BasketDevice>
 > {
   id: number;
-  basketId: BelongsToCreateAssociationMixin<Basket>;
-  deviceId: BelongsToCreateAssociationMixin<Device>;
+  createBasket: BelongsToCreateAssociationMixin<Basket>;
+  createDevice: BelongsToCreateAssociationMixin<Device>;
+  setBasket: BelongsToSetAssociationMixin<Basket, number>;
+  setUser: BelongsToSetAssociationMixin<User, number>;
+  getBasket: BelongsToGetAssociationMixin<Basket>;
+  getUser: BelongsToGetAssociationMixin<User>;
 }
 
 export class Brand extends Model<InferAttributes<Brand>, InferCreationAttributes<Brand>> {
   id: CreationOptional<number>;
   name: number;
-  getDevices: HasManyAddAssociationMixin<Device, number>;
-  typeBrandId: BelongsToCreateAssociationMixin<TypeBrand>;
+  setDevices: HasManyAddAssociationMixin<Device, number>;
+  setTypeBrand: BelongsToCreateAssociationMixin<TypeBrand>;
 }
 
 export class Device extends Model<InferAttributes<Device>, InferCreationAttributes<Device>> {
@@ -56,14 +71,16 @@ export class Device extends Model<InferAttributes<Device>, InferCreationAttribut
   price: number;
   rating: CreationOptional<number>;
   img: string;
-  getBasketDevice: HasManyAddAssociationMixin<BasketDevice, number>;
-  getRating: HasManyAddAssociationMixin<Rating, number>;
-  getDeviceInfo: HasManyAddAssociationMixin<DeviceInfo, number>;
-  setBrand: BelongsToCreateAssociationMixin<Brand>;
-  setType: BelongsToCreateAssociationMixin<Type>;
+  createBasketDevice: HasManyCreateAssociationMixin<BasketDevice, 'id'>;
+  createRating: HasManyCreateAssociationMixin<Rating, 'rate'>;
+  createDeviceInfo: HasManyCreateAssociationMixin<DeviceInfo, 'description'>;
+  createBrand: BelongsToCreateAssociationMixin<Brand>;
+  createType: BelongsToCreateAssociationMixin<Type>;
+  getTypeId: BelongsToGetAssociationMixin<Type>;
+  getBrandId: BelongsToGetAssociationMixin<Brand>;
+  setType: BelongsToSetAssociationMixin<Type, number>;
+  setBrand: BelongsToSetAssociationMixin<Brand, number>;
 }
-//   typeId: BelongsToCreateAssociationMixin<Type>;
-//   brandId: BelongsToCreateAssociationMixin<Brand>;
 
 export class DeviceInfo extends Model<
   InferAttributes<DeviceInfo>,
@@ -78,8 +95,12 @@ export class DeviceInfo extends Model<
 export class Rating extends Model<InferAttributes<Rating>, InferCreationAttributes<Rating>> {
   id: number;
   rate: number;
-  userId: BelongsToCreateAssociationMixin<User>;
-  deviceId: BelongsToCreateAssociationMixin<Device>;
+  createUser: BelongsToCreateAssociationMixin<User>;
+  createDevice: BelongsToCreateAssociationMixin<Device>;
+  getUser: BelongsToSetAssociationMixin<User, number>;
+  getDevice: BelongsToSetAssociationMixin<Device, number>;
+  setUser: BelongsToSetAssociationMixin<User, number>;
+  setDevice: BelongsToSetAssociationMixin<Device, number>;
 }
 
 // {omit: 'id'}
@@ -95,6 +116,10 @@ export class TypeBrand extends Model<
   InferCreationAttributes<TypeBrand>
 > {
   id: number;
-  typeId: BelongsToGetAssociationMixin<Type>;
-  brandId: BelongsToGetAssociationMixin<Brand>;
+  createType: BelongsToCreateAssociationMixin<Type>;
+  createBrand: BelongsToCreateAssociationMixin<Brand>;
+  getType: BelongsToGetAssociationMixin<Type>;
+  getBrand: BelongsToGetAssociationMixin<Brand>;
+  setType: BelongsToSetAssociationMixin<Type, number>;
+  setBrand: BelongsToSetAssociationMixin<Brand, number>;
 }

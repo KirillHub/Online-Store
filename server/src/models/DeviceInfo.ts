@@ -20,6 +20,7 @@ export const _DeviceInfo = DeviceInfoModel.init(
   },
   {
     sequelize: sequelize,
-    modelName: 'device_info',
+    modelName: 'DeviceInfo',
+    tableName: 'device_info',
   }
 );
