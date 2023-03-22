@@ -14,7 +14,7 @@ export const requestedQueryParam = (options: RequestedQueryParamOptions) => {
     const queryParam = options.fields;
 
     if (query[queryParam]) {
-      if (!queryParam) return next(error);
+      if (!queryParam) next(error);
 
       const where = {
         [queryParam]: query[queryParam] as string,

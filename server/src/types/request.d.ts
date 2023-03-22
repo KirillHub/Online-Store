@@ -1,6 +1,8 @@
+import { Request } from 'express';
 import { Partial } from 'lodash';
 import { BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes } from 'sequelize';
 import { Basket, Brand, Device, Type, User } from './models.js';
+
 
 export declare interface AssociationDeviceInter {
   brandId: number;
@@ -42,4 +44,5 @@ export declare interface BaseUserInter {
   email: string;
   password: string;
   role: string;
+  name: string;
 }

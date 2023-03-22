@@ -34,9 +34,6 @@ const initializeExpress = () => {
 
   app.use(cors());
   app.use(express.json());
-  //   app.use(express.urlencoded());
-
-  //   app.use(addRespondToResponse);
 
   app.use(express.static(fp));
   app.use(fileUpload({}));

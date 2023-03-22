@@ -1,7 +1,8 @@
+import pkg from 'lodash';
 import { catchErrors } from '../errors/asyncCatch.js';
 import { Brand } from '../associations/modelAssociations.js';
 import { RequestQueryParamError } from '../errors/customErrors.js';
-import pkg from 'lodash';
+
 
 export class BrandController {
   constructor() {}

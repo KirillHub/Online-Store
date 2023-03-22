@@ -2,7 +2,7 @@
   "compilerOptions": {
     //   "typeRoots": ["./types/modulels"],
     "typeRoots": [
-      "./types/express.ts"
+      // "./types/express.d.ts"
     ],
     "target": "ES6",
     "module": "NodeNext",
@@ -38,7 +38,7 @@
     "baseUrl": "src",
     "paths": {
       "*": ["./*"],
-		"@env": ["node_modules/dotenv"]
+      "@env": ["node_modules/dotenv"]
       // "@models/*": ["types/models.d.ts"]
     },
     "types": ["node"],
@@ -47,7 +47,8 @@
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules", "build"],
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "lib/**/*.ts"],
+  "files": ["src/types/express.d.ts"],
   "ts-node": {
     "esm": true
   }

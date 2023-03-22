@@ -3,36 +3,30 @@ import { BaseUserInter } from '../types/request.js';
 import { catchErrors } from '../errors/asyncCatch.js';
 import { AuthenticationError, BadUserInputError, UserExistsError } from '../errors/customErrors.js';
 import { Basket, User } from '../associations/modelAssociations.js';
-import bcrypt from 'bcrypt';
-import jwt, { SignOptions } from 'jsonwebtoken';
-import { InferCreationAttributes } from 'sequelize';
-import { Basket as BasketModel } from '../types/models.js';
+import { hash, compareSync } from 'bcrypt';
 import { signToken } from '../utils/authToken.js';
 import { options } from '../config/tokenOptions.js';
-
-const generateJwt = (id: number, email: string, role?: string) => {
-  return jwt.sign({ id, email, role }, process.env.SECRET_KEY!, { expiresIn: '24h' });
-};
 
 export class UserController {
   constructor() {}
   registration = catchErrors(async (req: Request<{}, {}, BaseUserInter>, res, next) => {
-    const { email, password, role } = req.body;
+    const { email, password, role, name } = req.body;
     const authError = new AuthenticationError();
     const userExistError = new UserExistsError();
 
-    if (!email || !password) {
-      return next(authError);
-    }
+    if (!email || !password) return next(authError);
+
     const candidate = await User.findOne({ where: { email } });
-    if (candidate) {
-      return next(userExistError);
-    }
+    if (candidate) return next(userExistError);
 
-    const hashPassword = await bcrypt.hash(password, 5);
-    const user = await User.create({ email, role, password: hashPassword });
+    const hashPassword = await hash(password, 5);
+    const user = await User.create({
+      email: email,
+      name: name,
+      role,
+      password: hashPassword,
+    });
 
-    // TODO: fix this
     const basket = await Basket.create({});
     await basket.setUser(user.id);
 
@@ -42,14 +36,14 @@ export class UserController {
   });
 
   login = catchErrors(async (req: Request<{}, {}, BaseUserInter>, res, next) => {
-    const { email, password, role } = req.body;
+    const { email, password} = req.body;
     const user = await User.findOne({ where: { email } });
     const userExistError = new UserExistsError();
     const authError = new AuthenticationError();
 
     if (!user) return next(userExistError);
 
-    let comparePassword = bcrypt.compareSync(password, user.password);
+    let comparePassword = compareSync(password, user.password);
     if (!comparePassword) return next(authError);
 
     const token = signToken({ id: user.id, email: user.email, role: user.role });

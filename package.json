@@ -13,5 +13,8 @@
     "install-dependencies": "npm install && cd server && npm install && cd ../client && npm install",
     "build": "cd server && npm run build && cd ../client && npm run build",
     "start:production": "cd server && npm run start:production && cd ../client && npm run start:production"
+  },
+  "dependencies": {
+    "@types/passport": "^1.0.12"
   }
 }

@@ -8,22 +8,22 @@ _User.hasOne(_Basket);
 _User.hasMany(_Rating);
 
 // Basket
-_Basket.belongsTo(_User);
+_Basket.belongsTo(_User, { foreignKey: 'userId' });
 _Basket.hasMany(_BasketDevice);
 
 // BasketDevice
-_BasketDevice.belongsTo(_Basket);
-_BasketDevice.belongsTo(_Device);
+_BasketDevice.belongsTo(_Basket, { foreignKey: 'basketId' });
+_BasketDevice.belongsTo(_Device, { foreignKey: 'deviceId' });
 
 // Device
 _Device.hasMany(_BasketDevice);
-_Device.belongsTo(_Type);
+_Device.belongsTo(_Type, { foreignKey: 'typeId' });
 _Device.hasMany(_Rating);
-_Device.hasMany(_DeviceInfo, { as: 'info' });
-_Device.belongsTo(_Brand);
+_Device.hasMany(_DeviceInfo, { foreignKey: 'info' });
+_Device.belongsTo(_Brand, { foreignKey: 'brandId' });
 
 // DeviceInfo
-_DeviceInfo.belongsTo(_Device);
+_DeviceInfo.belongsTo(_Device, { foreignKey: 'deviceId' });
 
 // Brand
 _Brand.hasMany(_Device);
@@ -34,8 +34,8 @@ _Type.hasMany(_Device);
 _Type.belongsToMany(_Brand, { through: _TypeBrand });
 
 // Rating
-_Rating.belongsTo(_User);
-_Rating.belongsTo(_Device);
+_Rating.belongsTo(_User, { foreignKey: 'userId' });
+_Rating.belongsTo(_Device, { foreignKey: 'deviceId' });
 
 // Now the created models are safe to use after declaring the associations
 export {
