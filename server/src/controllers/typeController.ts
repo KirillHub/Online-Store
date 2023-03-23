@@ -1,7 +1,7 @@
+import pkg from 'lodash';
 import { RequestPathError, RequestQueryParamError } from '../errors/customErrors.js';
 import { catchErrors } from '../errors/asyncCatch.js';
 import { Type } from '../associations/modelAssociations.js';
-import pkg from 'lodash';
 
 export class TypeController {
   constructor() {}

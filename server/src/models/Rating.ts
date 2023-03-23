@@ -1,5 +1,5 @@
-import { sequelize } from '../database/createConnection.js';
 import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/createConnection.js';
 import { Rating as RatingModel } from '../types/models.js';
 
 export const _Rating = RatingModel.init(

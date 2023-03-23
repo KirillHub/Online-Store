@@ -7,8 +7,8 @@ declare global {
       respond: (data: any) => void;
     }
     export interface Request {
-      currentUser: string extends '' ? object : null;
-      user: string | JwtPayload;
+      currentUser: string extends '' ? null : object;
+      user: JwtPayload | string;
     }
   }
 }

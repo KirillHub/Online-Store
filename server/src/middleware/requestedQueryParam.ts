@@ -1,6 +1,6 @@
+import { Model, ModelStatic } from 'sequelize';
 import { RequestPathError, RequestQueryParamError } from '../errors/customErrors.js';
 import { catchErrors } from '../errors/asyncCatch.js';
-import { Model, ModelStatic } from 'sequelize';
 
 interface RequestedQueryParamOptions {
   model: ModelStatic<Model>;

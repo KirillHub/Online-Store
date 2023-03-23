@@ -1,5 +1,5 @@
-import { sequelize } from '../database/createConnection.js';
 import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/createConnection.js';
 import { Device as DeviceModel } from '../types/models.js';
 
 export const _Device = DeviceModel.init(
@@ -30,6 +30,6 @@ export const _Device = DeviceModel.init(
   {
     sequelize: sequelize,
     modelName: 'Device',
-	 tableName: 'device'
+    tableName: 'device',
   }
 );

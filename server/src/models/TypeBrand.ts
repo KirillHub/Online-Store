@@ -1,5 +1,5 @@
-import { sequelize } from '../database/createConnection.js';
 import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/createConnection.js';
 import { TypeBrand as TypeBrandModel } from '../types/models.js';
 
 export const _TypeBrand = TypeBrandModel.init(

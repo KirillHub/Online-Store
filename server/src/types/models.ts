@@ -1,12 +1,9 @@
 import {
-  Association,
-  BelongsTo,
   BelongsToCreateAssociationMixin,
   BelongsToGetAssociationMixin,
   BelongsToManyAddAssociationMixin,
   BelongsToSetAssociationMixin,
   CreationOptional,
-  ForeignKey,
   HasManyAddAssociationMixin,
   HasManyAddAssociationsMixin,
   HasManyCountAssociationsMixin,

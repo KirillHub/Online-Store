@@ -1,5 +1,5 @@
-import { sequelize } from '../database/createConnection.js';
 import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/createConnection.js';
 import { Type as TypeModel } from '../types/models.js';
 
 export const _Type = TypeModel.init(
@@ -22,6 +22,6 @@ export const _Type = TypeModel.init(
   {
     sequelize: sequelize,
     modelName: 'Type',
-	 tableName: 'type'
+    tableName: 'type',
   }
 );

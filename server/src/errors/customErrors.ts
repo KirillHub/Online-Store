@@ -47,6 +47,12 @@ class InvalidTokenError extends CustomError {
   }
 }
 
+class UserPermissionsError extends CustomError {
+  constructor(message = 'You do not have sufficient permissions for this action') {
+    super(message, 'NO_ACCESS', 403);
+  }
+}
+
 class AuthenticationError extends CustomError {
   constructor(message = 'Password or username is not correct') {
     super(message, 'INVALID_PASSWORD_OR_USERNAME', 401);
@@ -62,4 +68,5 @@ export {
   UserExistsError,
   InvalidTokenError,
   AuthenticationError,
+  UserPermissionsError,
 };

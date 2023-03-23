@@ -3,6 +3,11 @@ import { Partial } from 'lodash';
 import { BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes } from 'sequelize';
 import { Basket, Brand, Device, Type, User } from './models.js';
 
+export declare interface UserData {
+  id: number;
+  email: string;
+  role: string;
+}
 
 export declare interface AssociationDeviceInter {
   brandId: number;

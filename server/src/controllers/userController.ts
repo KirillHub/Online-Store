@@ -1,9 +1,9 @@
 import { Request } from 'express';
-import { BaseUserInter } from '../types/request.js';
-import { catchErrors } from '../errors/asyncCatch.js';
-import { AuthenticationError, BadUserInputError, UserExistsError } from '../errors/customErrors.js';
-import { Basket, User } from '../associations/modelAssociations.js';
 import { hash, compareSync } from 'bcrypt';
+import { AuthenticationError, BadUserInputError, UserExistsError } from '../errors/customErrors.js';
+import { BaseUserInter, UserData } from '../types/request.js';
+import { catchErrors } from '../errors/asyncCatch.js';
+import { Basket, User } from '../associations/modelAssociations.js';
 import { signToken } from '../utils/authToken.js';
 import { options } from '../config/tokenOptions.js';
 
@@ -36,7 +36,7 @@ export class UserController {
   });
 
   login = catchErrors(async (req: Request<{}, {}, BaseUserInter>, res, next) => {
-    const { email, password} = req.body;
+    const { email, password } = req.body;
     const user = await User.findOne({ where: { email } });
     const userExistError = new UserExistsError();
     const authError = new AuthenticationError();
@@ -50,12 +50,12 @@ export class UserController {
     return res.json({ token });
   });
 
+  /**
+   *  @check we generating a new token and then sending it to the client
+   */
   check = catchErrors(async (req, res) => {
-    const { id } = req.query;
-    if (!id) {
-      // return next(ApiError.badRequest('Не задан ID'));
-    }
-    return res.json(id);
-    //  res.json({ message: 'cringe123' });
+    const { id, email, role } = req.user as UserData;
+    const token = signToken({ id, email, role });
+    return res.json({ token });
   });
 }

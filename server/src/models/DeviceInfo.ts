@@ -1,5 +1,5 @@
-import { sequelize } from '../database/createConnection.js';
 import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/createConnection.js';
 import { DeviceInfo as DeviceInfoModel } from '../types/models.js';
 
 export const _DeviceInfo = DeviceInfoModel.init(

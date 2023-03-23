@@ -1,13 +1,13 @@
-import { catchErrors } from '../errors/asyncCatch.js';
 import { Request } from 'express';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import pkg from 'lodash';
 import { DeviceModel, DeviceInter } from '../types/request.js';
 import { Files } from '../types/global.js';
 import { Device, Brand, Type, DeviceInfo } from '../associations/modelAssociations.js';
 import { RequestQueryParamError } from '../errors/customErrors.js';
-import pkg from 'lodash';
 import { DeviceInfo as ModelDeviceInfo } from '../types/models.js';
+import { catchErrors } from '../errors/asyncCatch.js';
 
 export class DeviceController {
   constructor() {}

@@ -1,5 +1,5 @@
-import { sequelize } from '../database/createConnection.js';
 import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/createConnection.js';
 import { Basket as BasketModel } from '../types/models.js';
 
 export const _Basket = BasketModel.init(
