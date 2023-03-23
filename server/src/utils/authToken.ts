@@ -9,13 +9,13 @@ export const signToken = (payload: {}, options?: SignOptions) =>
     ...options,
   });
 
-export const verifyToken = (token: string): { [key: string]: any } => {
+export const verifyToken = (token: string): { [key: string]: string | number } => {
   try {
     const { isPlainObject } = pkg;
     const payload = jwt.verify(token, process.env.JWT_SECRET!);
 
     if (isPlainObject(payload)) {
-      return payload as { [key: string]: any };
+      return payload as { [key: string]: string | number };
     }
     throw new Error();
   } catch (error) {

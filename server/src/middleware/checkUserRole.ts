@@ -1,28 +1,25 @@
-import { InvalidTokenError, UserPermissionsError } from '../errors/customErrors.js';
+import { UserPermissionsError } from '../errors/customErrors.js';
 import { catchErrors } from '../errors/asyncCatch.js';
-import { getAuthTokenFromRequest, verifyToken } from '../utils/authToken.js';
-import { User } from '../associations/modelAssociations.js';
-import { authenticateUser } from './authentication.js';
+import { checkUser } from '../utils/checkUser.js';
 
 export const checkUserRole = (role: string) => {
   return catchErrors(async (req, _res, next) => {
-    const token = getAuthTokenFromRequest(req);
-    if (req.method === 'OPTIONS') next();
+    const permissionError = new UserPermissionsError();
 
-    if (!token) throw new InvalidTokenError('Authentication token not found.');
+    const userDecodedData = await checkUser(req, next);
 
-    const userId = verifyToken(token);
-    if (!userId) throw new InvalidTokenError('Authentication token is invalid.');
+    if (userDecodedData.role !== role) next(permissionError);
+    req.user = userDecodedData;
+    next();
 
-    const user = await User.findOne(userId);
+    /*
+	 ? possible var. to check user role by founded email in DB
+    const user = await User.findOne({where: userId.email as any});
+	 console.log(user);
     if (!user) throw new InvalidTokenError('Authentication token is invalid: User not found.');
-
-    console.log(user.role);
-	 console.log(role);
-    // cheking user role
-    if (user.role !== role) throw new UserPermissionsError();
 
     req.user = user;
     next();
+	*/
   });
 };
