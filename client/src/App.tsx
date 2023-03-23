@@ -1,13 +1,11 @@
-import { useState } from 'react';
+import { Box } from '@mui/material';
+import { useRoutes } from 'react-router-dom';
+import { routes as r } from './router';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const routes = useRoutes(r);
 
-  return (
-    <div className='App'>
-      <div>here i promise to return</div>
-    </div>
-  );
+  return <Box className='App'>{routes}</Box>;
 }
 
 export default App;
