@@ -2,6 +2,7 @@
 
 ## Stack technologies 🗄
 
+- Next.js
 - React
 - Typescript
 - PostgreSQL
