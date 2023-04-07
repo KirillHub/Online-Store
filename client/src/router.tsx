@@ -8,7 +8,7 @@ const Loader = (Component: any) => (props: any) =>
     </Suspense>
   );
 
-const MainPage = Loader(lazy(() => import('./pages/Main')));
+const MainPage = Loader(lazy(() => import('./pages/Main/Main')));
 const AdminPage = Loader(lazy(() => import('./pages/Admin')));
 
 export const routes = [
